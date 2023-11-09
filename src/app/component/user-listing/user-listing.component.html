@@ -1,0 +1,53 @@
+<app-app-header></app-app-header>
+<div class="container m-5 p-5 m-auto">    
+    <button routerLink="/admin/add-user" class="btn btn-success mb-2"><a><i class="fa fa-user-plus"></i> Add User</a></button>
+    <!-- <button class="btn btn-success mb-2"><a href="/admin/users"><i class="fa fa-users"></i> Show All Users</a></button> -->
+    <div class="input-group mb-3 ms-3 w-25 float-end">
+      <form id="search-hidden-form" class="p-0">
+        <input type="text" #search (keyup)="searchUser(search.value)" class="form-control" placeholder="Search name...">
+      </form>
+      <!-- <div class="input-group-append">
+        <button [disabled]="users.length == 0" (click)="searchUser(search.value)" class="btn btn-search bg-danger text-white rounded-end-2 rounded-start-0" id="searchBtn">Search</button>
+      </div> -->
+      <!-- <div class="input-group-append">
+        <button (click)="ngOnInit()" class="btn btn-search bg-success text-white ms-2 rounded-2" >Show All</button>
+      </div> -->
+    </div>
+    <table class="table">
+      <thead class="table-danger">
+        <tr>
+          <th scope="col">S.No</th>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Active</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="users.length > 0">
+        <th scope="row"></th>
+        <tr *ngFor="let user of users;let  i = index;">
+          <td>{{i+1}}</td>
+          <td><img *ngIf="user?.userPic != undefined" class="rounded-circle" style="width:45px; height:45px" [src]="imgUrl+'/assets/users/'+user?.userPic"></td>
+          <td>{{user.name}}</td>
+          <td>{{user?.gender}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user?.phone}}</td>
+          <td><a class="pill" [ngClass]="{'text-success':user.isActive, 'text-danger':!user.isActive}"><b>{{user?.isActive ? 'Active' : 'Inactive'}}</b></a></td>
+          <td>
+            <button class="btn btn-warning mx-1" id="deleteBtn" >
+              <span class=" fa fa-trash fa-lg iconbtn" (click)="editUser(user._id)">Edit</span>
+            </button>
+            <button class="btn btn-danger mx-1" id="deleteBtn" >
+              <span class=" fa fa-trash fa-lg iconbtn" (click)="deleteUser(user._id, user.name)">Delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      <div *ngIf="users.length === 0" class="text-center mt-5">
+        <h3 class="text-danger h3"><b>No users. Users list is empty</b></h3>
+      </div>
+  </div>

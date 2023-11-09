@@ -1,0 +1,110 @@
+<section class="ftco-section bg-dark" style="width: 100%;height: 100%;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap py-5 rounded-3">
+                    <h2 class="text-center mb-0 text-white">
+                            <span *ngIf="!isAdmin">REGISTER</span>
+                            <span *ngIf="isAdmin && !isEdit">ADD USER</span>
+                            <span *ngIf="isAdmin && isEdit">EDIT USER</span>
+                    </h2>
+                    <p class="text-center text-white-50">
+                        <span *ngIf="!isAdmin">Enter the following information to register</span>
+                    </p>
+                    <form [formGroup]="signupForm" class="login-form px-md-5" (ngSubmit)="submit()">
+                        <input type="hidden" *ngIf="isAdmin" class="form-control my-2 mx-2" formControlName="id"/>
+                        <div class="form-group finput d-flex">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-user text-white"></span>
+                            </div>
+                            <input type="text" class="form-control my-2 mx-2" formControlName="name" required placeholder="*Name"/>
+                            <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+                                <small class="text-danger" *ngIf="signupForm.get('name')?.errors?.['required']">Name is Required</small>
+                                <small class="text-danger" *ngIf="signupForm.get('name')?.errors?.['minlength']">Name requires min 3 characters</small>
+                                <!-- <small class="text-danger" *ngIf="signupForm.get('name')?.value?.trim()?.length">Name requires min 3 characters</small> -->
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label class="form-check-label text-white mx-2" for="genderRadio1">Gender :&emsp;Female</label>
+                            <input class="form-check-input mx-3" type="radio" name="gender" formControlName="gender" value="female">
+                            <label class="form-check-label text-white ms-5" for="genderRadio2">Male</label>
+                            <input class="form-check-input mx-3" type="radio" name="gender" formControlName="gender" value="male">
+                            <div *ngIf="signupForm.get('gender')?.invalid && signupForm.get('gender')?.touched">
+                                <small class="text-danger" *ngIf="signupForm.get('gender')?.errors?.['required']">Gender is Required</small>
+                            </div>
+                        </div>
+                        <div class="form-group finput d-flex mt-3">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-phone text-white"></span>
+                            </div>
+                            <input type="text" class="form-control my-2 mx-2" formControlName="phone" required placeholder="*Phone Number" />
+                        </div>
+                        <div class="ms-3 my-0" *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
+                            <small class="text-danger" *ngIf="signupForm.get('phone')?.errors?.['required']">Phone is Required</small>
+                            <small class="text-danger" *ngIf="signupForm.get('phone')?.errors?.['minlength']">Phone requires min 10 numbers</small>
+                            <small class="text-danger" *ngIf="signupForm.get('phone')?.errors?.['pattern']">Please enter valid phone</small>
+                        </div>
+                        <div class="form-group finput d-flex mt-3">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-envelope text-white"></span>
+                            </div>
+                            <input type="text" class="form-control my-2 mx-2" formControlName="email" required placeholder="*Email" />
+                        </div>
+                        <div class="ms-3 my-0" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                            <small class="text-danger" *ngIf="signupForm.get('email')?.errors?.['required']">Email is Required</small>
+                            <small class="text-danger" *ngIf="signupForm.get('email')?.errors?.['pattern']">Email is not valid</small>
+                        </div>
+                        <div *ngIf="(isAdmin && !isEdit) || !isAdmin" class="form-group finput d-flex mt-3">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-lock text-white"></span>
+                            </div>
+                            <input type="password" class="form-control my-2 mx-2" formControlName="password" 
+                            placeholder="Password" autocomplete="on"/>
+                            <div class="ms-3 my-0" *ngIf="((isAdmin && !isEdit) || !isAdmin) && signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+                                <small class="text-danger" *ngIf="signupForm.get('password')?.errors?.['required']">Password is Required</small>
+                                <small class="text-danger" *ngIf="signupForm.get('password')?.errors?.['minlength']">Password requires min 4 characters</small>
+                                <small class="text-danger" *ngIf="signupForm.get('password')?.errors?.['pattern']">Invalid password format</small>
+                            </div>
+                        </div>
+                        <div *ngIf="(isAdmin && !isEdit) || !isAdmin" class="form-group finput d-flex mt-3">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-lock text-white"></span>
+                            </div>
+                            <input type="password" class="form-control my-2 mx-2" formControlName="repassword" 
+                                placeholder="Confirm Password" autocomplete="on" />
+                            <div *ngIf="(((isAdmin && !isEdit) || !isAdmin) && signupForm.get('repassword')?.invalid && signupForm.get('repassword')?.touched) || (((isAdmin && !isEdit) || !isAdmin) && signupForm.get('repassword')?.value != signupForm.get('password')?.value && signupForm.get('repassword')?.touched)">
+                                <small class="text-danger" *ngIf="signupForm.get('repassword')?.errors?.['required']">Password is Required</small>
+                                <small class="text-danger" *ngIf="signupForm.get('repassword')?.value != signupForm.get('password')?.value">Passwords does not match</small>
+                            </div>
+                        </div>
+                        <div *ngIf="isAdmin" class="form-group form-check d-flex mt-3 mx-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" formControlName="isActive">
+                            <label class="form-check-label text-white mx-3" for="flexCheckChecked">Is Active</label>
+                        </div>
+                        <!-- loading spinner -->
+                        <div *ngIf="isLoading" class="my-2 form-group d-flex justify-content-center">
+                            <div id="loading" class="spinner-border text-primary"></div>
+                        </div>
+                        <div class="form-group mt-4 mb-2">
+                            <button type="submit" class="btn form-control btn-primary text-white rounded submit px-3">
+                                <span *ngIf="!isAdmin">SIGNUP</span>
+                                <span *ngIf="isAdmin">SUBMIT</span>
+                            </button>
+                        </div>
+                    </form>
+                    <h6 class="h6 text-white text-center my-2"></h6> 
+                    <div *ngIf="!isAdmin" class="w-100 text-center mt-4 text text-white">
+                        <p class="mb-0 text-white-50">Have already an account?</p>
+                        <a routerLink="/login" class="text-pink">Login here</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

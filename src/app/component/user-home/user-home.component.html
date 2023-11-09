@@ -1,0 +1,38 @@
+<app-app-header></app-app-header>
+<div class="row justify-content-center mt-5 pt-5">
+    <div class="col-4">
+      <div>
+        <h1>Name: {{user.name}}</h1>
+        <h3>Phone: {{user.phone}}</h3>
+        <h3>Email: {{user.email}}</h3>
+        <h3>Gender: {{user.gender}}</h3>
+        <button class="btn btn-small btn-info" (click)="showUpload = !showUpload">{{showUpload ? 'Close':'Edit Picture'}}</button>
+      </div>
+      <div *ngIf="showUpload" class="mt-5">
+        <div class="row m-auto text-center">
+            <form [formGroup]="uploadForm" enctype="multipart/form-data">
+                <div class="">
+                      <input type="file" (change)="onChange($event)" name="userImg" class="form-control" accept="image/*" />
+                      <img class="img mt-3" style="width:100px" [src]="previewImgSrc">
+                      <button class="btn btn-secondary m-4" (click)="onSubmit(user._id)">Upload</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-8 card rounded-5" style="width: 18rem;">
+      <div class="card-body">
+        <img *ngIf="user.gender == 'female' && imgUrl == ''" class="card-img-top rounded-5" src="https://t4.ftcdn.net/jpg/05/33/97/31/360_F_533973132_DYTYD0n2Qx0oeQTxNZOSCUNkFsfwNNhN.jpg" alt="User image" />
+        <img *ngIf="user.gender == 'male' && imgUrl == ''" class="card-img-top rounded-5" src="https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg" alt="User image" />
+        <img *ngIf="imgUrl !=''" class="card-img-top rounded-5" [src]="imgUrl">
+        <div class="row">
+          <h3 class="card-title">{{user.name}}</h3>
+        </div>
+        <p class="card-text"><b>Strengths:</b> Hard work, honesty, quick-learner, time management, self-motivated</p>
+        <p class="card-text"><b>Long-term Goal:</b> Get a high income job</p>
+      </div>
+    </div>    
+</div> 
+<br>
+<hr>
+<br> 

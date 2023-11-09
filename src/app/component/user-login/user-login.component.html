@@ -1,0 +1,59 @@
+<nav style="position: fixed; width: 100%;" class="navbar navbar-dark bg-warning" [ngClass]="{'bg-warning': !isAdmin, 'bg-dark': isAdmin}" >
+    <h2 class="m-2 mx-5" [ngClass]="{'text-white': isAdmin}">{{isAdmin ? 'ADMIN LOGIN': 'USER LOGIN'}}</h2>
+</nav>
+<section class="ftco-section" [ngClass]="{'bg-dark': !isAdmin, 'bg-secondary': isAdmin}" style="width: 100%;height: 100%;" >
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap py-5 rounded-3">
+                    <div class="img d-flex align-items-center justify-content-center">
+                        <img style="width: 150px;" src="https://cdn-icons-png.flaticon.com/512/295/295128.png">
+                    </div>
+                    <h2 class="text-center mb-2"  [ngClass]="{'text-white': !isAdmin}">WELCOME</h2>
+                    <p *ngIf="!isAdmin" class="text-center text-white-50">
+                        Sign in by entering the information below
+                    </p>
+                    <form [formGroup]="loginForm" class="login-form px-md-5" (ngSubmit)="submit()">
+                        <div class="form-group finput d-flex">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-envelope text-white"></span>
+                            </div>
+                            <input type="text" class="form-control my-2 mx-2" formControlName="email" required placeholder="Email" />
+                        </div>
+                        <div class="ms-3 my-0" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                            <small class="text-danger" *ngIf="loginForm.get('email')?.errors?.['required']">Email is Required</small>
+                            <small class="text-danger" *ngIf="loginForm.get('email')?.errors?.['pattern']">Email is not valid</small>
+                        </div>
+                        <div class="form-group finput d-flex mt-3">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="fa fa-lock text-white"></span>
+                            </div>
+                            <input type="password" class="form-control my-2 mx-2" formControlName="password" required placeholder="Password" autocomplete="on" />
+                        </div>
+                        <div class="ms-3 my-0" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                            <small class="text-danger m-auto" *ngIf="loginForm.get('password')?.errors?.['required']">Password is Required</small>
+                        </div>
+                        <!-- loading spinner -->
+                        <div *ngIf="isLoading" class="my-2 form-group d-flex justify-content-center">
+                            <div id="loading" class="spinner-border text-primary"></div>
+                        </div>
+                        <div class="form-group mt-4 mb-2">
+                            <button type="submit" class="btn form-control btn-primary text-white rounded submit px-3 ">
+                                LOGIN
+                            </button>
+                        </div>
+                    </form>
+                    <div *ngIf="!isAdmin" class="w-100 text-center mt-4 text text-white">
+                        <p class="mb-0 text-white-50">Don't have an account?</p>
+                        <a routerLink="/signup" class="text-pink">SIGN UP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
